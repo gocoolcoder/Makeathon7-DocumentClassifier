@@ -1,0 +1,6 @@
+For Python backend conda environment is to be created 
+please install poppler for Image2PDF module to work
+
+conda install -c conda-forge poppler
+
+Make sure loopback is connected to a Mongo DB 

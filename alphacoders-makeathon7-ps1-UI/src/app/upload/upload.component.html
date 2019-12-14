@@ -1,0 +1,80 @@
+<div class="row" style="margin-top: 5%;">
+    <div class="col-md-3"></div>
+    <div class="col-md-9">
+        <h3>Document Classifier</h3>
+    </div>
+</div>
+<div class="row" style="margin-top: 1%;">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="file" style="width: 70%;" class="custom-file-upload">
+                Choose Files
+            </label>
+            <input type="file" id="file" multiple (change)="handleFileInput($event.target.files)">
+            <button mat-flat-button style="margin-left: 10px; width: 20%;" color="accent"
+                (click)="postFile()">Upload</button>
+            <br>
+            <br>
+            <div *ngIf="fileToUpload.length>0">
+                {{fileToUpload.length}} File(s) Selected
+
+            </div>
+
+            <ngx-spinner></ngx-spinner>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div *ngIf="dataSource.length > 0" style="text-align: center;">
+    <h5>Classified Documents</h5>
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <!-- Order Column -->
+        <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef> Order </th>
+            <td mat-cell *matCellDef="let element"> {{element.order}} </td>
+        </ng-container>
+
+        <!-- Invoice Column -->
+        <ng-container matColumnDef="invoice">
+            <th mat-header-cell *matHeaderCellDef> Invoice </th>
+            <td mat-cell *matCellDef="let element"> {{element.invoice}} </td>
+        </ng-container>
+
+        <!-- PO Docs Column -->
+        <ng-container matColumnDef="document_tag">
+            <th mat-header-cell *matHeaderCellDef> Document Tag </th>
+            <td mat-cell *matCellDef="let element"> {{element.document_tag}} </td>
+        </ng-container>
+
+        <!-- Invoice Docs Column -->
+        <ng-container matColumnDef="path">
+            <th mat-header-cell *matHeaderCellDef> Path </th>
+            <td mat-cell *matCellDef="let element"> {{element.path}} </td>
+        </ng-container>
+
+        <!-- Files Column -->
+        <ng-container matColumnDef="filename">
+            <th mat-header-cell *matHeaderCellDef> Filename </th>
+            <td mat-cell *matCellDef="let element"> {{element.filename}} </td>
+        </ng-container>
+
+        <!-- Quantity Column -->
+        <ng-container matColumnDef="quantity">
+            <th mat-header-cell *matHeaderCellDef> Quantity </th>
+            <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+<button mat-raised-button color="warn" (click)="deleteAll()">Delete all Records</button>
+</div>
+<div *ngIf="dataSource.length == 0" style="text-align: center;">
+    No Classifier Records
+
+</div>
