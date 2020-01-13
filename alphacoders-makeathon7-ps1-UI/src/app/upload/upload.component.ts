@@ -13,10 +13,12 @@ import { NgxSpinnerService } from "ngx-spinner";
 export class UploadComponent implements OnInit {
   fileToUpload: File[] = [];
   displayedColumns: string[] = ['order', 'invoice', 'document_tag', 'path', 'filename', 'quantity'];
-  dataSource : any = [];
+  dataSource: any = [];
+  jobIds: any = [];
+  jobSelected = "";
 
   constructor(private http: HttpClient, private spinner: NgxSpinnerService, private _snackBar: MatSnackBar) {
-      this.getDocuments();
+    this.getDocuments();
   }
 
   ngOnInit() {
@@ -31,17 +33,25 @@ export class UploadComponent implements OnInit {
   }
 
   postFile() {
-    if (this.fileToUpload.length > 0) {
+    console.log(this.jobSelected);
+    if (this.jobSelected == "") {
+      this._snackBar.open("Please select job", "OK", {
+        duration: 2000,
+      });
+    }
+    else if (this.fileToUpload.length > 0) {
       var formData: FormData = new FormData();
       for (var i = 0; i < this.fileToUpload.length; i++) {
         formData.append('file' + i, this.fileToUpload[i], this.fileToUpload[i].name);
 
       }
+      formData.append("job_id",this.jobSelected);
+      console.log(formData)
       this.spinner.show();
       this.http
         .post('http://localhost:5000/upload_files', formData, { responseType: "text" })
         .subscribe(data => {
-         
+
           data = JSON.parse(data)
           console.log(data)
           this._snackBar.open(data["message"], "", {
@@ -49,7 +59,7 @@ export class UploadComponent implements OnInit {
           });
           this.getDocuments();
         })
-      
+
     }
     else {
       this._snackBar.open("Please select files", "OK", {
@@ -59,30 +69,35 @@ export class UploadComponent implements OnInit {
 
   }
 
-  getDocuments(){
+  getDocuments() {
     this.http.get('http://localhost:3000/api/documents')
-          .subscribe(
-            data => {
-              this.dataSource = new Array();
-              this.spinner.hide();
-              this.dataSource = data;
-              console.log(data)
-            }
-          )
+      .subscribe(
+        data => {
+          this.dataSource = new Array();
+          this.spinner.hide();
+          this.dataSource = data;
+          console.log(data)
+        }
+      )
+    this.http.get('http://localhost:3000/api/jobs')
+      .subscribe(
+        data => {
+          this.jobIds = data
+          console.log(data)
+        }
+      )
   }
-
-  deleteAll(){
+  deleteAll() {
     this.spinner.show();
     this.http.delete('http://localhost:5000/delete')
-    .subscribe(
-      data =>{
-        console.log(data);
-        this.spinner.hide();
-        this.getDocuments();
-      }
-    )
+      .subscribe(
+        data => {
+          console.log(data);
+          this.spinner.hide();
+          this.getDocuments();
+        }
+      )
   }
-
 
 
 }

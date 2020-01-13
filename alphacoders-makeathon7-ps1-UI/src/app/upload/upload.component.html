@@ -1,13 +1,11 @@
-<div class="row" style="margin-top: 5%;">
-    <div class="col-md-3"></div>
-    <div class="col-md-9">
-        <h3>Document Classifier</h3>
-    </div>
+<div class="row" style="margin-top: 5%; margin-left: 10%;">
+
+    <h3>Document Classifier</h3>
 </div>
 <div class="row" style="margin-top: 1%;">
-    <div class="col-md-3"></div>
+
     <div class="col-md-6">
-        <div class="form-group">
+        <div class="form-group" style="margin-left: 20%;">
             <label for="file" style="width: 70%;" class="custom-file-upload">
                 Choose Files
             </label>
@@ -18,19 +16,27 @@
             <br>
             <div *ngIf="fileToUpload.length>0">
                 {{fileToUpload.length}} File(s) Selected
-
             </div>
-
             <ngx-spinner></ngx-spinner>
-
         </div>
     </div>
+    <div class="col-md-2">
+        <mat-form-field>
+            <mat-label>Select Job</mat-label>
+            <mat-select [(value)]="jobSelected">
+                <mat-option *ngFor="let job of jobIds" [value]="job.jobid">
+                    {{job['jobid']}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div class="col-md-4">
+        <button mat-flat-button [color]="'success'"><a routerLink="/jobs" routerLinkActive="active">+ Create
+                Job</a></button>
+    </div>
 </div>
-
-
-
 <div *ngIf="dataSource.length > 0" style="text-align: center;">
-    <h5>Classified Documents</h5>
+    <h5 style="margin-left: 10%;text-align: left;">Classified Documents</h5>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <!-- Order Column -->
@@ -72,9 +78,9 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-<button mat-raised-button color="warn" (click)="deleteAll()">Delete all Records</button>
+    <button mat-raised-button color="warn" (click)="deleteAll()" style="margin-bottom: 3%;">Delete all Records</button>
 </div>
-<div *ngIf="dataSource.length == 0" style="text-align: center;">
-    No Classifier Records
+<div *ngIf="dataSource.length == 0" style="text-align: center; margin-top: 5%;">
+    No Classified Records
 
 </div>

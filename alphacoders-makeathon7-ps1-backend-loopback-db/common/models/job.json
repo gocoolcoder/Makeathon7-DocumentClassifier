@@ -1,0 +1,31 @@
+{
+  "name": "job",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "jobid": {
+      "type": "string",
+      "required": true
+    },
+    "keywords": {
+      "type": "object",
+      "required": true
+    
+    },
+    "length": {
+      "type": "number",
+      "required": true
+    },
+    "isalphanum": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

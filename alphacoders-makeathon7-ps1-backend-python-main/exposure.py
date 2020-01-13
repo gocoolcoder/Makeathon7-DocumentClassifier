@@ -22,8 +22,10 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def add_tasks():
     
     try:
+        job_id = request.form['job_id']
         collection = []
         print(request.files)
+        print(request.form['job_id'])
         file = request.files.to_dict()
         print(file)
         if file:
@@ -32,7 +34,8 @@ def add_tasks():
                 value.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
                 collection.append(UPLOAD_FOLDER+'/'+filename)
 
-        response = classify.classify(collection)
+        keywords, length,  isalphanum = classify.job_details(job_id)
+        response = classify.classify(collection,keywords,length,isalphanum)
     except:
         code = "FAILURE"
         message = "Module Error"
@@ -51,6 +54,26 @@ def delete():
             r = requests.delete(url = API_ENDPOINT) 
         code = "SUCCESS"
         message = "Deleted All Rows"
+        response = json.dumps({"code": code , "message" : message})
+    except:
+        code = "FAILURE"
+        message = "Delete Error"
+        response = json.dumps({"code": code , "message" : message})
+       
+   
+    return response
+
+@app.route('/deletejobs',methods=['DELETE'])
+def deletejobs():
+    
+    try:
+        data = requests.get(url = "http://localhost:3000/api/jobs/") 
+        data = data.text
+        for i in json.loads(data):
+            API_ENDPOINT = "http://localhost:3000/api/jobs/" + str(i['id'])
+            r = requests.delete(url = API_ENDPOINT) 
+        code = "SUCCESS"
+        message = "Deleted All Jobs"
         response = json.dumps({"code": code , "message" : message})
     except:
         code = "FAILURE"

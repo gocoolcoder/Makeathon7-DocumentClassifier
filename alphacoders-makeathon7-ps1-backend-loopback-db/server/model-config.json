@@ -42,5 +42,9 @@
   "team": {
     "dataSource": "mongo",
     "public": true
+  },
+  "job": {
+    "dataSource": "mongo",
+    "public": true
   }
 }

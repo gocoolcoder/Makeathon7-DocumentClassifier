@@ -11,14 +11,20 @@ input[type="file"] {
 
 table {
     width: 80%;
-    margin:10%;
-    margin-top: 2%;
+    margin-left:10%;
+    margin-right:10%;
     margin-bottom: 2%;
-
-    
   }
 
   .mat-header-row th,tr {
     text-align: left;
+}
+.mat-success {
+    background-color: green;
+    color: #fff;
+}
+a{
+    color: white;
+    text-decoration: none;
 }
 
