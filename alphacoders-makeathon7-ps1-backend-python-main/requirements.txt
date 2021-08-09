@@ -194,7 +194,7 @@ python-crfsuite==0.9.6
 python-dateutil==2.7.5
 pytz==2018.7
 PyWavelets==1.0.1
-pywin32==223
+pywin32==301
 pywinpty==0.5.5
 PyYAML==3.13
 pyzmq==17.1.2
